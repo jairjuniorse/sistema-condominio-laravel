@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UnitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +15,40 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-// Rotas Públicas - Autenticação
-Route::get('/', [AuthController::class, 'showLogin'])->name('login');
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login.form');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+// Rota para a página de login personalizada
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login.form');
+
+// Rotas Públicas
+Route::get('/', function () {
+    return redirect()->route('login.form');
+})->name('login');
+
+// =============================================
+// ROTAS PÚBLICAS (SEM AUTENTICAÇÃO)
+// =============================================
+
+// Dashboard principal (FORA DO MIDDLEWARE)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+// Rotas de perfil (FORA DO MIDDLEWARE)
+Route::get('/perfil', function () {
+    return view('profile.index');
+})->name('profile.index');
+
+Route::get('/perfil/editar', function () {
+    return view('profile.edit');
+})->name('profile.edit');
+
+Route::post('/perfil/atualizar', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'Dados atualizados com sucesso!'
+    ]);
+})->name('profile.update');
 
 // Recuperação de senha
 Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
@@ -27,13 +56,15 @@ Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name(
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
-// Rotas Protegidas - Requer autenticação
+// Rotas para unidades
+Route::get('/unidades', [UnitController::class, 'index'])->name('units.index');
+
+// =============================================
+// ROTAS PROTEGIDAS - REQUEREM AUTENTICAÇÃO
+// =============================================
 Route::middleware(['auth'])->group(function () {
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    
-    // Dashboard principal
-    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
     
     // Troca de senha no primeiro acesso
     Route::get('/change-password', [AuthController::class, 'showChangePassword'])->name('change.password');
@@ -47,7 +78,6 @@ Route::middleware(['auth'])->group(function () {
     
     // Futuras rotas para cada tipo de usuário
     Route::prefix('admin')->middleware(['admin'])->group(function () {
-        // Rotas específicas do Admin
         Route::get('/users', function () {
             return view('admin.users');
         })->name('admin.users');
@@ -62,7 +92,6 @@ Route::middleware(['auth'])->group(function () {
     });
     
     Route::prefix('syndicate')->middleware(['syndicate'])->group(function () {
-        // Rotas específicas do Síndico
         Route::get('/units', function () {
             return view('syndicate.units');
         })->name('syndicate.units');
@@ -73,7 +102,6 @@ Route::middleware(['auth'])->group(function () {
     });
     
     Route::prefix('doorman')->middleware(['doorman'])->group(function () {
-        // Rotas específicas do Porteiro
         Route::get('/access-control', function () {
             return view('doorman.access-control');
         })->name('doorman.access-control');
@@ -88,7 +116,6 @@ Route::middleware(['auth'])->group(function () {
     });
     
     Route::prefix('owner')->middleware(['owner'])->group(function () {
-        // Rotas específicas do Proprietário
         Route::get('/profile', function () {
             return view('owner.profile');
         })->name('owner.profile');
@@ -109,5 +136,5 @@ Route::middleware(['auth'])->group(function () {
 
 // Rota fallback - para URLs não encontradas
 Route::fallback(function () {
-    return redirect()->route('login');
+    return redirect()->route('login.form');
 });

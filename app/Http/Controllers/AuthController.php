@@ -15,19 +15,18 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // Processar login - VERSÃO SIMPLES PARA TESTE
+    // Processar login - CORRIGIDO
     public function login(Request $request)
     {
-        // Login simples para teste - por unidade
-        if ($request->unit === 'D201' && $request->password === '1234') {
-            $user = User::where('email', 'admin@condominio.com')->first();
-            if ($user) {
-                Auth::login($user);
-                return redirect()->route('dashboard');
-            }
+        // Buscar usuário pela UNIDADE informada no formulário
+        $user = User::where('unit', $request->unidade)->first();
+        
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user);
+            return redirect()->route('dashboard');
         }
         
-        return back()->withErrors(['unit' => 'Unidade ou senha inválida']);
+        return back()->withErrors(['unidade' => 'Unidade ou senha inválida']);
     }
 
     // Dashboard
