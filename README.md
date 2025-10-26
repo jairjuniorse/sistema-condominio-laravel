@@ -1,15 +1,18 @@
 # 🏠 Sistema de Gestão Condominial
 
-Sistema desenvolvido em Laravel para gestão completa de condomínios, com autenticação por unidade e dashboard administrativo.
+Sistema desenvolvido em Laravel para gestão completa de condomínios, com autenticação por unidade, dashboard administrativo e gestão de perfis.
 
 ## 🚀 Funcionalidades Implementadas
 
 - ✅ **Sistema de Autenticação** - Login por unidade e senha
-- ✅ **Dashboard Administrativo** - Interface de gestão
+- ✅ **Dashboard Administrativo** - Interface de gestão completa
+- ✅ **Gestão de Perfis** - Visualização e edição de dados dos moradores
 - ✅ **Gestão de Unidades** - Controle de moradores por apartamento
 - ✅ **Interface Responsiva** - Funciona em desktop e mobile
 - ✅ **Banco de Dados** - Migrações e seeders configurados
 - ✅ **Segurança** - Proteção CSRF e autenticação Laravel
+- ✅ **Persistência Local** - Dados do perfil salvos em localStorage
+- ✅ **CSS Personalizado** - Design moderno e intuitivo
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -17,14 +20,15 @@ Sistema desenvolvido em Laravel para gestão completa de condomínios, com auten
 - **PHP 8.2** - Linguagem de programação
 - **MySQL** - Banco de dados
 - **Bootstrap** - Interface e responsividade
+- **JavaScript** - Interatividade e localStorage
 - **Git** - Controle de versão
 
 ## 👥 Credenciais de Teste
 
 | Unidade | Senha | Tipo de Acesso |
 |---------|-------|----------------|
-| `D201`  | `1234`| Administrador  |
-| `A101`  | `1234`| Morador        |
+| `SINDICO` | `admin123` | Síndico |
+| `D201`  | `1234`| Morador        |
 
 ## 📦 Instalação e Configuração
 
