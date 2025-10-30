@@ -32,6 +32,11 @@
     </div>
 
     <script>
+        // LIMPA TUDO ao carregar a página - PARA O LOOP
+        sessionStorage.clear();
+        localStorage.clear();
+        console.log('🔄 Storage limpo - página recarregada');
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -42,36 +47,39 @@
             messageDiv.textContent = '';
             messageDiv.className = 'message';
             
-            // VALIDAÇÃO LOCAL SIMPLES
-            const credentials = {
-                'SINDICO': 'admin123',
-                'D201': '1234'
-            };
-            
-            // Normaliza para maiúsculas
-            const normalizedUnidade = unidade.toUpperCase().trim();
-            
-            // Verifica credenciais
-            if (credentials[normalizedUnidade] === senha) {
-                messageDiv.className = 'message success';
-                messageDiv.textContent = '✅ Login realizado com sucesso! Redirecionando...';
+            // VALIDAÇÃO DIRETA - SEM STORAGE
+            if ((unidade.toUpperCase() === 'D201' && senha === '1234') || 
+                (unidade.toUpperCase() === 'SINDICO' && senha === 'admin123')) {
                 
-                // NÃO SALVA NADA NO STORAGE - isso causa loop
-                // Redireciona diretamente sem verificação
+                messageDiv.className = 'message success';
+                messageDiv.textContent = '✅ Login OK! Redirecionando...';
+                
+                // REDIRECIONAMENTO DIRETO - PARA ROTAS NORMAIS
                 setTimeout(() => {
-                    window.location.href = '/projeto/public/dashboard';
-                }, 1500);
+                    // Salva APENAS o necessário
+                    sessionStorage.setItem('loggedIn', 'true');
+                    sessionStorage.setItem('userType', unidade.toUpperCase() === 'SINDICO' ? 'admin' : 'morador');
+                    sessionStorage.setItem('userUnit', unidade.toUpperCase());
+                    
+                    console.log('Redirecionando para:', unidade.toUpperCase());
+                    
+                    if (unidade.toUpperCase() === 'SINDICO') {
+                        // Síndico vai para dashboard admin NORMAL
+                        window.location.href = '/admin/dashboard';
+                    } else {
+                        // Morador vai para dashboard NORMAL
+                        window.location.href = '/dashboard';
+                    }
+                }, 1000);
                 
             } else {
                 messageDiv.className = 'message error';
-                messageDiv.textContent = '❌ Unidade ou senha incorretos!';
+                messageDiv.textContent = '❌ Credenciais inválidas!';
             }
         });
 
-        // REMOVIDA toda verificação de "já está logado"
-        // Isso evita o loop de redirecionamento
-        
-        console.log('Página de login carregada - sem verificações automáticas');
+        // NENHUMA verificação automática - evita loops
+        console.log('✅ Login carregado - sem verificações automáticas');
     </script>
 </body>
 </html>

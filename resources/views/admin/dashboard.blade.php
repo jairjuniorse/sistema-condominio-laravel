@@ -16,41 +16,16 @@
                 <span class="user-info">Bem-vindo, Síndico</span>
             </div>
             <div class="header-actions">
+                <!-- BOTÃO ADICIONADO: Cadastrar Novo Morador -->
+                <button onclick="window.location.href='/admin/unidades/cadastrar'" class="btn-primary">
+                    <i class="fas fa-user-plus"></i> Cadastrar Novo Morador
+                </button>
                 <button onclick="window.location.href='/dashboard'" class="btn-outline">
                     <i class="fas fa-eye"></i> Ver como Morador
                 </button>
                 <button onclick="logout()" class="btn-secondary">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </button>
-            </div>
-        </div>
-
-        <!-- Botões Principais de Gestão -->
-        <div class="management-actions">
-            <div class="action-large-card" onclick="window.location.href='/admin/unidades/cadastrar'">
-                <div class="action-large-icon">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <div class="action-large-content">
-                    <h3>Cadastrar Novo Morador</h3>
-                    <p>Adicione um novo proprietário ou morador ao sistema</p>
-                </div>
-                <div class="action-large-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </div>
-
-            <div class="action-large-card" onclick="window.location.href='/admin/unidades'">
-                <div class="action-large-icon">
-                    <i class="fas fa-list"></i>
-                </div>
-                <div class="action-large-content">
-                    <h3>Consultar Todos os Moradores</h3>
-                    <p>Visualize, edite e gerencie todos os moradores cadastrados</p>
-                </div>
-                <div class="action-large-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
             </div>
         </div>
 
@@ -101,7 +76,7 @@
             </div>
         </div>
 
-        <!-- Ações Rápidas -->
+        <!-- Ações Rápidas (versão sem duplicação) -->
         <div class="quick-actions-section">
             <h2><i class="fas fa-bolt"></i> Ações Rápidas</h2>
             <div class="actions-grid">
@@ -114,13 +89,14 @@
                     <span class="action-badge">120 unidades</span>
                 </div>
 
-                <div class="action-card" onclick="window.location.href='/admin/unidades/cadastrar'">
+                <!-- BOTÃO PRINCIPAL: Cadastrar Novo Morador -->
+                <div class="action-card highlight" onclick="window.location.href='/admin/unidades/cadastrar'">
                     <div class="action-icon">
-                        <i class="fas fa-plus-circle"></i>
+                        <i class="fas fa-user-plus"></i>
                     </div>
-                    <h4>Cadastrar Unidade</h4>
-                    <p>Adicione uma nova unidade ao sistema</p>
-                    <span class="action-badge">Novo</span>
+                    <h4>Cadastrar Novo Morador</h4>
+                    <p>Adicione um novo morador e unidade ao sistema</p>
+                    <span class="action-badge highlight">Importante</span>
                 </div>
 
                 <div class="action-card" onclick="showComingSoon('Relatórios')">
@@ -140,6 +116,24 @@
                     <p>Envie avisos e comunicados aos moradores</p>
                     <span class="action-badge">Em breve</span>
                 </div>
+
+                <div class="action-card" onclick="showComingSoon('Financeiro')">
+                    <div class="action-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h4>Gestão Financeira</h4>
+                    <p>Controle de taxas condominiais e inadimplência</p>
+                    <span class="action-badge">Em breve</span>
+                </div>
+
+                <div class="action-card" onclick="showComingSoon('Ocorrências')">
+                    <div class="action-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h4>Ocorrências</h4>
+                    <p>Registro e acompanhamento de problemas</p>
+                    <span class="action-badge">Em breve</span>
+                </div>
             </div>
         </div>
 
@@ -157,7 +151,7 @@
                         <i class="fas fa-user-plus"></i>
                     </div>
                     <div class="activity-content">
-                        <p><strong>Novo morador cadastrado</strong> - Unidade A305</p>
+                        <p><strong>Nova unidade cadastrada</strong> - A305</p>
                         <span class="activity-time">Há 2 horas</span>
                     </div>
                 </div>
@@ -179,29 +173,36 @@
                         <span class="activity-time">Hoje às 09:30</span>
                     </div>
                 </div>
+                <div class="activity-item">
+                    <div class="activity-icon success">
+                        <i class="fas fa-money-bill"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p><strong>Pagamento confirmado</strong> - Unidade D201</p>
+                        <span class="activity-time">Ontem às 16:45</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Verificação de autenticação
-        if (!window.location.pathname.includes('entrar-como-sindico')) {
-            if (sessionStorage.getItem('loggedIn') !== 'true' || sessionStorage.getItem('userType') !== 'admin') {
-                window.location.href = '/login';
-            }
-        }
-        
-        console.log('Dashboard síndico carregado');
-
         // Carrega estatísticas ao iniciar
         document.addEventListener('DOMContentLoaded', function() {
             loadStatistics();
+            console.log('Dashboard admin carregado - SessionStorage:', {
+                loggedIn: sessionStorage.getItem('loggedIn'),
+                userType: sessionStorage.getItem('userType'),
+                userUnit: sessionStorage.getItem('userUnit')
+            });
         });
 
         // Carrega estatísticas (simulado)
         function loadStatistics() {
+            // Em uma implementação real, buscaria da API
             console.log('Carregando estatísticas...');
             
+            // Simula carregamento
             setTimeout(() => {
                 document.getElementById('totalUnits').textContent = '120';
                 document.getElementById('activeUnits').textContent = '115';
@@ -228,7 +229,7 @@
                         <i class="fas fa-user-plus"></i>
                     </div>
                     <div class="activity-content">
-                        <p><strong>Novo morador cadastrado</strong> - Unidade A305</p>
+                        <p><strong>Nova unidade cadastrada</strong> - A305</p>
                         <span class="activity-time">Há 2 horas</span>
                     </div>
                 </div>
@@ -241,6 +242,15 @@
                         <span class="activity-time">Há 5 horas</span>
                     </div>
                 </div>
+                <div class="activity-item">
+                    <div class="activity-icon info">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p><strong>Dados atualizados</strong> - Unidade B102</p>
+                        <span class="activity-time">Hoje às 09:30</span>
+                    </div>
+                </div>
             `;
         }
 
@@ -249,12 +259,45 @@
             alert(`🎯 ${feature} - Em desenvolvimento!\n\nEsta funcionalidade estará disponível em breve.`);
         }
 
-        // Logout
+        // Função de logout
         function logout() {
-            sessionStorage.clear();
-            localStorage.clear();
+            sessionStorage.removeItem('loggedIn');
+            sessionStorage.removeItem('userType');
+            sessionStorage.removeItem('userUnit');
             window.location.href = '/login';
         }
+
+        // Atualiza data e hora em tempo real
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            // Se tiver um elemento para data/hora, atualiza
+            const dateTimeElement = document.getElementById('currentDateTime');
+            if (dateTimeElement) {
+                dateTimeElement.textContent = now.toLocaleDateString('pt-BR', options);
+            }
+        }
+
+        // Atualiza a cada minuto
+        setInterval(updateDateTime, 60000);
+        updateDateTime(); // Executa imediatamente
+    </script>
+
+    <script>
+        // Verificação de autenticação para admin
+        if (sessionStorage.getItem('loggedIn') !== 'true' || sessionStorage.getItem('userType') !== 'admin') {
+            console.warn('Acesso não autorizado! Redirecionando para login...');
+            window.location.href = '/login';
+        }
+    
+        console.log('Dashboard síndico carregado com sucesso!');
     </script>
 </body>
 </html>

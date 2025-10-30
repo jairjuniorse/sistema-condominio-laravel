@@ -1,42 +1,54 @@
-# 🏠 Sistema de Gestão Condominial
+# Sistema de Gestão de Condomínio
 
-Sistema desenvolvido em Laravel para gestão completa de condomínios, com autenticação por unidade, dashboard administrativo e gestão de perfis.
+## 📋 Sobre o Projeto
+Sistema de gestão condominial desenvolvido em Laravel com áreas diferenciadas para síndicos, moradores e administradores.
 
 ## 🚀 Funcionalidades Implementadas
 
-- ✅ **Sistema de Autenticação** - Login por unidade e senha
-- ✅ **Dashboard Administrativo** - Interface de gestão completa
-- ✅ **Gestão de Perfis** - Visualização e edição de dados dos moradores
-- ✅ **Gestão de Unidades** - Controle de moradores por apartamento
-- ✅ **Interface Responsiva** - Funciona em desktop e mobile
-- ✅ **Banco de Dados** - Migrações e seeders configurados
-- ✅ **Segurança** - Proteção CSRF e autenticação Laravel
-- ✅ **Persistência Local** - Dados do perfil salvos em localStorage
-- ✅ **CSS Personalizado** - Design moderno e intuitivo
+### ✅ Correções Realizadas
+- **Correção da Rota `admin.unidades.store`**: Resolvido o erro `RouteNotFoundException` no cadastro de unidades
+- **Redirecionamento Pós-Cadastro**: Após cadastrar uma unidade, o sistema redireciona automaticamente para o dashboard
+- **Sistema de Mensagens Flash**: Mensagens de sucesso são exibidas após operações bem-sucedidas
 
-## 🛠️ Tecnologias Utilizadas
+### 🔧 Rotas Principais
+- **Dashboard Síndico**: `/admin/dashboard`
+- **Gestão de Unidades**: `/admin/unidades`
+- **Cadastro de Unidades**: `/admin/unidades/cadastrar`
+- **Processamento de Cadastro**: `/admin/unidades/store` (POST)
 
-- **Laravel 10** - Framework PHP
-- **PHP 8.2** - Linguagem de programação
-- **MySQL** - Banco de dados
-- **Bootstrap** - Interface e responsividade
-- **JavaScript** - Interatividade e localStorage
-- **Git** - Controle de versão
-
-## 👥 Credenciais de Teste
-
-| Unidade | Senha | Tipo de Acesso |
-|---------|-------|----------------|
-| `SINDICO` | `admin123` | Síndico |
-| `D201`  | `1234`| Morador        |
-
-## 📦 Instalação e Configuração
-
-### Pré-requisitos
-- PHP 8.2 ou superior
-- Composer
+### 🛠 Tecnologias
+- Laravel 10.x
+- PHP 8.1+
 - MySQL
-- Git
+- Bootstrap 5
+- JavaScript
+
+## 📦 Instalação
+
+```bash
+# Clone o repositório
+git clone [url-do-repositorio]
+
+# Instale as dependências
+composer install
+
+# Configure o ambiente
+cp .env.example .env
+php artisan key:generate
+
+# Configure o banco de dados no .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nome_do_banco
+DB_USERNAME=usuario
+DB_PASSWORD=senha
+
+# Execute as migrações
+php artisan migrate
+
+# Inicie o servidor
+php artisan serve
 
 ### Passo a Passo
 
