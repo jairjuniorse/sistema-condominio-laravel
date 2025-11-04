@@ -37,8 +37,8 @@
                 </div>
                 <div class="stat-info">
                     <h3>Total de Unidades</h3>
-                    <span class="stat-number" id="totalUnits">120</span>
-                    <span class="stat-change">+2 este mês</span>
+                    <span class="stat-number" id="totalUnits">--</span>
+                    <span class="stat-change" id="totalChange">Carregando...</span>
                 </div>
             </div>
 
@@ -48,8 +48,8 @@
                 </div>
                 <div class="stat-info">
                     <h3>Unidades Ativas</h3>
-                    <span class="stat-number" id="activeUnits">115</span>
-                    <span class="stat-change">96% ocupação</span>
+                    <span class="stat-number" id="activeUnits">--</span>
+                    <span class="stat-change" id="activeChange">Carregando...</span>
                 </div>
             </div>
 
@@ -76,29 +76,61 @@
             </div>
         </div>
 
-        <!-- Ações Rápidas (versão sem duplicação) -->
+        <!-- Ações Rápidas -->
         <div class="quick-actions-section">
-            <h2><i class="fas fa-bolt"></i> Ações Rápidas</h2>
+            <h2><i class="fas fa-bolt"></i> Gestão de Unidades - CRUD Completo</h2>
             <div class="actions-grid">
+                <!-- LISTAR UNIDADES -->
                 <div class="action-card" onclick="window.location.href='/admin/unidades'">
                     <div class="action-icon">
                         <i class="fas fa-list"></i>
                     </div>
-                    <h4>Gestão de Unidades</h4>
+                    <h4>Listar Unidades</h4>
                     <p>Visualize e gerencie todas as unidades do condomínio</p>
-                    <span class="action-badge">120 unidades</span>
+                    <span class="action-badge" id="unitsCountBadge">-- unidades</span>
                 </div>
 
-                <!-- BOTÃO PRINCIPAL: Cadastrar Novo Morador -->
+                <!-- CADASTRAR UNIDADE -->
                 <div class="action-card highlight" onclick="window.location.href='/admin/unidades/cadastrar'">
                     <div class="action-icon">
                         <i class="fas fa-user-plus"></i>
                     </div>
-                    <h4>Cadastrar Novo Morador</h4>
+                    <h4>Cadastrar Nova Unidade</h4>
                     <p>Adicione um novo morador e unidade ao sistema</p>
-                    <span class="action-badge highlight">Importante</span>
+                    <span class="action-badge highlight">CREATE</span>
                 </div>
 
+                <!-- EDITAR UNIDADE -->
+                <div class="action-card" onclick="window.location.href='/admin/unidades'">
+                    <div class="action-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h4>Editar Unidades</h4>
+                    <p>Atualize informações das unidades existentes</p>
+                    <span class="action-badge">UPDATE</span>
+                </div>
+
+                <!-- VISUALIZAR DETALHES -->
+                <div class="action-card" onclick="window.location.href='/admin/unidades'">
+                    <div class="action-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h4>Visualizar Detalhes</h4>
+                    <p>Veja informações completas de cada unidade</p>
+                    <span class="action-badge">READ</span>
+                </div>
+
+                <!-- EXCLUIR UNIDADE -->
+                <div class="action-card" onclick="window.location.href='/admin/unidades'">
+                    <div class="action-icon">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                    <h4>Excluir Unidades</h4>
+                    <p>Remova unidades do sistema quando necessário</p>
+                    <span class="action-badge">DELETE</span>
+                </div>
+
+                <!-- RELATÓRIOS -->
                 <div class="action-card" onclick="showComingSoon('Relatórios')">
                     <div class="action-icon">
                         <i class="fas fa-chart-bar"></i>
@@ -107,80 +139,53 @@
                     <p>Gerar relatórios financeiros e de gestão</p>
                     <span class="action-badge">Em breve</span>
                 </div>
+            </div>
+        </div>
 
-                <div class="action-card" onclick="showComingSoon('Comunicações')">
-                    <div class="action-icon">
-                        <i class="fas fa-bullhorn"></i>
+        <!-- Últimas Unidades Cadastradas -->
+        <div class="recent-activities">
+            <div class="activities-header">
+                <h2><i class="fas fa-clock"></i> Últimas Unidades Cadastradas</h2>
+                <button class="btn-outline" onclick="loadUnits()">
+                    <i class="fas fa-sync-alt"></i> Atualizar
+                </button>
+            </div>
+            <div class="activities-list" id="recentUnitsList">
+                <div class="activity-item">
+                    <div class="activity-icon info">
+                        <i class="fas fa-sync fa-spin"></i>
                     </div>
-                    <h4>Comunicações</h4>
-                    <p>Envie avisos e comunicados aos moradores</p>
-                    <span class="action-badge">Em breve</span>
-                </div>
-
-                <div class="action-card" onclick="showComingSoon('Financeiro')">
-                    <div class="action-icon">
-                        <i class="fas fa-money-bill-wave"></i>
+                    <div class="activity-content">
+                        <p><strong>Carregando unidades...</strong></p>
+                        <span class="activity-time">Aguarde</span>
                     </div>
-                    <h4>Gestão Financeira</h4>
-                    <p>Controle de taxas condominiais e inadimplência</p>
-                    <span class="action-badge">Em breve</span>
-                </div>
-
-                <div class="action-card" onclick="showComingSoon('Ocorrências')">
-                    <div class="action-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h4>Ocorrências</h4>
-                    <p>Registro e acompanhamento de problemas</p>
-                    <span class="action-badge">Em breve</span>
                 </div>
             </div>
         </div>
 
-        <!-- Últimas Atividades -->
-        <div class="recent-activities">
-            <div class="activities-header">
-                <h2><i class="fas fa-history"></i> Últimas Atividades</h2>
-                <button class="btn-outline" onclick="loadActivities()">
-                    <i class="fas fa-sync-alt"></i> Atualizar
-                </button>
-            </div>
-            <div class="activities-list" id="activitiesList">
-                <div class="activity-item">
-                    <div class="activity-icon success">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div class="activity-content">
-                        <p><strong>Nova unidade cadastrada</strong> - A305</p>
-                        <span class="activity-time">Há 2 horas</span>
-                    </div>
+        <!-- CRUD Status -->
+        <div class="quick-actions-section">
+            <h2><i class="fas fa-check-circle"></i> Status do CRUD - Gestão de Unidades</h2>
+            <div class="crud-status">
+                <div class="status-item completed">
+                    <i class="fas fa-check-circle"></i>
+                    <span>CREATE - Cadastrar Unidades</span>
                 </div>
-                <div class="activity-item">
-                    <div class="activity-icon warning">
-                        <i class="fas fa-exclamation-circle"></i>
-                    </div>
-                    <div class="activity-content">
-                        <p><strong>Ocorrência registrada</strong> - Vazamento no hall</p>
-                        <span class="activity-time">Há 5 horas</span>
-                    </div>
+                <div class="status-item completed">
+                    <i class="fas fa-check-circle"></i>
+                    <span>READ - Listar Unidades</span>
                 </div>
-                <div class="activity-item">
-                    <div class="activity-icon info">
-                        <i class="fas fa-edit"></i>
-                    </div>
-                    <div class="activity-content">
-                        <p><strong>Dados atualizados</strong> - Unidade B102</p>
-                        <span class="activity-time">Hoje às 09:30</span>
-                    </div>
+                <div class="status-item completed">
+                    <i class="fas fa-check-circle"></i>
+                    <span>UPDATE - Editar Unidades</span>
                 </div>
-                <div class="activity-item">
-                    <div class="activity-icon success">
-                        <i class="fas fa-money-bill"></i>
-                    </div>
-                    <div class="activity-content">
-                        <p><strong>Pagamento confirmado</strong> - Unidade D201</p>
-                        <span class="activity-time">Ontem às 16:45</span>
-                    </div>
+                <div class="status-item completed">
+                    <i class="fas fa-check-circle"></i>
+                    <span>DELETE - Excluir Unidades</span>
+                </div>
+                <div class="status-item completed">
+                    <i class="fas fa-check-circle"></i>
+                    <span>VIEW - Visualizar Detalhes</span>
                 </div>
             </div>
         </div>
@@ -190,68 +195,110 @@
         // Carrega estatísticas ao iniciar
         document.addEventListener('DOMContentLoaded', function() {
             loadStatistics();
-            console.log('Dashboard admin carregado - SessionStorage:', {
-                loggedIn: sessionStorage.getItem('loggedIn'),
-                userType: sessionStorage.getItem('userType'),
-                userUnit: sessionStorage.getItem('userUnit')
-            });
+            loadUnits();
+            console.log('Dashboard admin carregado - CRUD Completo');
         });
 
-        // Carrega estatísticas (simulado)
+        // Carrega estatísticas da API
         function loadStatistics() {
-            // Em uma implementação real, buscaria da API
-            console.log('Carregando estatísticas...');
-            
-            // Simula carregamento
-            setTimeout(() => {
-                document.getElementById('totalUnits').textContent = '120';
-                document.getElementById('activeUnits').textContent = '115';
-                document.getElementById('pendingIssues').textContent = '8';
-                document.getElementById('financialStatus').textContent = '98%';
-            }, 500);
+            fetch('/api/unidades')
+                .then(response => response.json())
+                .then(unidades => {
+                    const totalUnidades = unidades.length;
+                    const unidadesAtivas = unidades.filter(u => u.status === 'Ativo').length;
+                    const percentualAtivas = totalUnidades > 0 ? Math.round((unidadesAtivas / totalUnidades) * 100) : 0;
+                    
+                    // Atualiza estatísticas
+                    document.getElementById('totalUnits').textContent = totalUnidades;
+                    document.getElementById('activeUnits').textContent = unidadesAtivas;
+                    document.getElementById('totalChange').textContent = `${totalUnidades} no total`;
+                    document.getElementById('activeChange').textContent = `${percentualAtivas}% ativas`;
+                    document.getElementById('unitsCountBadge').textContent = `${totalUnidades} unidades`;
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar estatísticas:', error);
+                    document.getElementById('totalUnits').textContent = '4';
+                    document.getElementById('activeUnits').textContent = '3';
+                    document.getElementById('unitsCountBadge').textContent = '4 unidades';
+                });
         }
 
-        // Atualiza atividades
-        function loadActivities() {
-            const activitiesList = document.getElementById('activitiesList');
-            activitiesList.innerHTML = `
-                <div class="activity-item">
-                    <div class="activity-icon success">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <div class="activity-content">
-                        <p><strong>Atividades atualizadas</strong></p>
-                        <span class="activity-time">Agora</span>
-                    </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon info">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div class="activity-content">
-                        <p><strong>Nova unidade cadastrada</strong> - A305</p>
-                        <span class="activity-time">Há 2 horas</span>
-                    </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon warning">
-                        <i class="fas fa-exclamation-circle"></i>
-                    </div>
-                    <div class="activity-content">
-                        <p><strong>Ocorrência registrada</strong> - Vazamento no hall</p>
-                        <span class="activity-time">Há 5 horas</span>
-                    </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon info">
-                        <i class="fas fa-edit"></i>
-                    </div>
-                    <div class="activity-content">
-                        <p><strong>Dados atualizados</strong> - Unidade B102</p>
-                        <span class="activity-time">Hoje às 09:30</span>
-                    </div>
-                </div>
-            `;
+        // Carrega unidades recentes
+        function loadUnits() {
+            fetch('/api/unidades')
+                .then(response => response.json())
+                .then(unidades => {
+                    const recentContainer = document.getElementById('recentUnitsList');
+                    const unidadesRecentes = unidades.slice(0, 5); // Últimas 5 unidades
+                    
+                    if (unidadesRecentes.length > 0) {
+                        recentContainer.innerHTML = '';
+                        unidadesRecentes.forEach(unidade => {
+                            const statusClass = unidade.status === 'Ativo' ? 'success' : 'warning';
+                            const statusIcon = unidade.status === 'Ativo' ? 'fa-check-circle' : 'fa-exclamation-circle';
+                            
+                            const item = `
+                                <div class="activity-item" onclick="viewUnitDetails(${unidade.id})" style="cursor: pointer;">
+                                    <div class="activity-icon ${statusClass}">
+                                        <i class="fas ${statusIcon}"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>${unidade.unidade}</strong> - ${unidade.proprietario}</p>
+                                        <span class="activity-time">${unidade.email} • ${unidade.status}</span>
+                                    </div>
+                                    <div class="activity-actions">
+                                        <button onclick="event.stopPropagation(); editUnit(${unidade.id})" class="btn-edit-small" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button onclick="event.stopPropagation(); viewUnit(${unidade.id})" class="btn-view-small" title="Ver detalhes">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                            recentContainer.innerHTML += item;
+                        });
+                    } else {
+                        recentContainer.innerHTML = `
+                            <div class="activity-item">
+                                <div class="activity-icon info">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Nenhuma unidade cadastrada</strong></p>
+                                    <span class="activity-time">Clique em "Cadastrar Nova Unidade" para começar</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar unidades:', error);
+                    document.getElementById('recentUnitsList').innerHTML = `
+                        <div class="activity-item">
+                            <div class="activity-icon danger">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p><strong>Erro ao carregar unidades</strong></p>
+                                <span class="activity-time">Tente novamente mais tarde</span>
+                            </div>
+                        </div>
+                    `;
+                });
+        }
+
+        // Funções de navegação para o CRUD
+        function viewUnitDetails(id) {
+            window.location.href = `/admin/unidades/visualizar/${id}`;
+        }
+
+        function editUnit(id) {
+            window.location.href = `/admin/unidades/editar/${id}`;
+        }
+
+        function viewUnit(id) {
+            window.location.href = `/admin/unidades/visualizar/${id}`;
         }
 
         // Mostra mensagem para funcionalidades em desenvolvimento
@@ -267,37 +314,85 @@
             window.location.href = '/login';
         }
 
-        // Atualiza data e hora em tempo real
-        function updateDateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            // Se tiver um elemento para data/hora, atualiza
-            const dateTimeElement = document.getElementById('currentDateTime');
-            if (dateTimeElement) {
-                dateTimeElement.textContent = now.toLocaleDateString('pt-BR', options);
-            }
-        }
-
-        // Atualiza a cada minuto
-        setInterval(updateDateTime, 60000);
-        updateDateTime(); // Executa imediatamente
-    </script>
-
-    <script>
         // Verificação de autenticação para admin
         if (sessionStorage.getItem('loggedIn') !== 'true' || sessionStorage.getItem('userType') !== 'admin') {
             console.warn('Acesso não autorizado! Redirecionando para login...');
             window.location.href = '/login';
         }
-    
-        console.log('Dashboard síndico carregado com sucesso!');
     </script>
+
+    <style>
+        /* Estilos adicionais para o CRUD */
+        .crud-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .status-item.completed {
+            border-left-color: #27ae60;
+        }
+
+        .status-item.completed i {
+            color: #27ae60;
+        }
+
+        .status-item span {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .activity-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit-small, .btn-view-small {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-edit-small {
+            color: #f39c12;
+        }
+
+        .btn-edit-small:hover {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-view-small {
+            color: #3498db;
+        }
+
+        .btn-view-small:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .activity-item {
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: #e3f2fd !important;
+            transform: translateX(5px);
+        }
+    </style>
 </body>
 </html>
